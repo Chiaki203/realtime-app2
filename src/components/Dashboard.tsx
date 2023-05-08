@@ -30,6 +30,7 @@ export const Dashboard:FC = () => {
   return (
     <>
       <LogoutIcon
+        data-testid="logout"
         className='my-6 h-6 w-6 cursor-pointer text-blue-500'
         onClick={signOut}
       />
