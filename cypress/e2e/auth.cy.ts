@@ -1,6 +1,7 @@
 describe('Authentication', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000')
+    // cy.visit('http://localhost:3000')
+    cy.visit('https://realtime-app2.vercel.app/')
   })
   it('Shall navigate to Dashboard when successfully login', () => {
     cy.get('input[placeholder="Email"]').type('user1@test.com')

@@ -1,18 +1,18 @@
-import { FC } from 'react';
-import { useQueryPosts } from '@/hooks/useQueryPosts';
-import { useSubscribePosts } from '@/hooks/useSubscribePosts';
-import { PostItem } from './PostItem';
-import { PostForm } from './PostForm';
+import { FC } from 'react'
+import { useQueryPosts } from '@/hooks/useQueryPosts'
+import { useSubscribePosts } from '@/hooks/useSubscribePosts'
+import { PostItem } from './PostItem'
+import { PostForm } from './PostForm'
 
-export const Feed:FC = () => {
-  const {data:posts} = useQueryPosts()
+export const Feed: FC = () => {
+  const { data: posts } = useQueryPosts()
   useSubscribePosts()
   return (
-    <>
-      <p className='mb-4 text-center'>Feed</p>
-      <PostForm/>
-      <ul data-testid="ul-post" className='my-5'>
-        {posts?.map(post => (
+    <div className="flex w-full flex-col items-center justify-center px-8">
+      <p className="mb-4 text-center">Feed</p>
+      <PostForm />
+      <ul data-testid="ul-post" className="my-5 w-full">
+        {posts?.map((post) => (
           <PostItem
             key={post.id}
             id={post.id}
@@ -22,6 +22,6 @@ export const Feed:FC = () => {
           />
         ))}
       </ul>
-    </>
+    </div>
   )
 }
