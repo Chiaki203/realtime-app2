@@ -36,9 +36,7 @@ export const NoticeFormMemo: FC = () => {
         <button
           type="submit"
           data-testid="btn-notice"
-          className={`w-full rounded px-3 py-2 text-sm text-white ${
-            editedNotice.content ? 'bg-indigo-600' : 'bg-gray-300'
-          }`}
+          className={`w-full rounded bg-indigo-600 px-3 py-2 text-sm text-white`}
           disabled={!editedNotice.content}
         >
           {editedNotice.id ? 'Update' : 'Create'}

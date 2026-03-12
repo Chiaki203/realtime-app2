@@ -22,7 +22,16 @@ export const useSubscribeCommentCounts = () => {
         { event: 'INSERT', schema: 'public', table: 'comments' },
         (payload: RealtimePostgresInsertPayload<CommentRow>) => {
           const postId = payload.new?.post_id
+          const commentId = payload.new?.id
           if (!postId) return
+          const cachedComments =
+            queryClient.getQueryData<any[]>(['comments', postId]) ?? []
+          if (
+            commentId &&
+            cachedComments.some((comment) => comment?.id === commentId)
+          ) {
+            return
+          }
           queryClient.setQueryData<number>(
             ['comment-count', postId],
             (prev) => (prev ?? 0) + 1
@@ -44,6 +53,14 @@ export const useSubscribeCommentCounts = () => {
           }
 
           if (directPostId) {
+            const cachedComments =
+              queryClient.getQueryData<any[]>(['comments', directPostId]) ?? []
+            if (
+              commentId &&
+              !cachedComments.some((comment) => comment?.id === commentId)
+            ) {
+              return
+            }
             dec(directPostId)
             return
           }

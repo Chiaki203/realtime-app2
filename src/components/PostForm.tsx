@@ -95,11 +95,7 @@ export const PostFormMemo: FC = () => {
         <button
           data-testid="btn-post"
           type="submit"
-          className={`w-full rounded px-3 py-2 text-sm text-white ${
-            useMutateUploadPostImg.isLoading || !editedPost.title
-              ? 'bg-gray-300'
-              : 'bg-indigo-600'
-          }`}
+          className={`w-full rounded bg-indigo-600 px-3 py-2 text-sm text-white`}
           disabled={useMutateUploadPostImg.isLoading || !editedPost.title}
         >
           {editedPost.id ? 'Update' : 'Create'}

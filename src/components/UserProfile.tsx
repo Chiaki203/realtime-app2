@@ -37,7 +37,7 @@ export const UserProfile: FC = () => {
   // }
   return (
     <div className="flex w-full flex-col items-center justify-center px-4 pt-4">
-      <p className="mb-4 ">Profile</p>
+      <p className="mb-4 text-lg">Profile</p>
       <p>{profile?.username}</p>
       {/* {profile?.created_at && (
         <p className="my-1 text-sm">
@@ -99,11 +99,7 @@ export const UserProfile: FC = () => {
         }
       /> */}
       <button
-        className={`my-2 rounded px-3 py-2 text-sm font-medium text-white ${
-          updateProfileMutation.isLoading || !editedProfile.username
-            ? 'bg-gray-400'
-            : 'bg-indigo-600'
-        }`}
+        className={`my-2 w-[200px] rounded bg-indigo-600 px-3 py-2 text-sm font-medium text-white`}
         onClick={updateProfile}
         disabled={updateProfileMutation.isLoading || !editedProfile.username}
       >

@@ -9,7 +9,7 @@ export const Notification: FC = () => {
   useSubscribeNotices()
   return (
     <div className="flex w-full flex-col items-center justify-center px-4 pt-4">
-      <p className="mb-4 text-center">Notification</p>
+      <p className="mb-4 text-center text-lg">Notification</p>
       <NoticeForm />
       <ul data-testid="ul-notice" className="my-2">
         {notices?.map((notice) => (

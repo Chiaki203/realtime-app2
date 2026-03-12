@@ -1,9 +1,10 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import useStore from '@/store';
 import { supabase } from '@/utils/supabase';
 import { Post, EditedPost } from '@/types';
 
 export const useMutatePost = () => {
+  const queryClient = useQueryClient()
   const reset = useStore(state => state.resetEditedPost)
   const createPostMutation = useMutation(async(post:Omit<Post, 'id' | 'created_at'>) => {
     const {data, error} = await supabase
@@ -14,7 +15,14 @@ export const useMutatePost = () => {
     console.log('createPostMutation supabase data', data)
     return data
   }, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      const createdPost = res?.[0]
+      if (createdPost) {
+        queryClient.setQueryData<Post[]>(['posts'], (previousPosts = []) => {
+          const filteredPosts = previousPosts.filter(post => post.id !== createdPost.id)
+          return [createdPost, ...filteredPosts]
+        })
+      }
       reset()
     },
     onError: (err:any) => {
@@ -32,7 +40,15 @@ export const useMutatePost = () => {
     console.log('updatePostMutation supabase data', data)
     return data
   }, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      const updatedPost = res?.[0]
+      if (updatedPost) {
+        queryClient.setQueryData<Post[]>(['posts'], (previousPosts = []) =>
+          previousPosts.map(post => (
+            post.id === updatedPost.id ? updatedPost : post
+          ))
+        )
+      }
       reset()
     },
     onError: (err:any) => {
@@ -50,7 +66,13 @@ export const useMutatePost = () => {
     console.log('deletePostMutation supabase data', data)
     return data
   }, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      const deletedPostId = res?.[0]?.id
+      if (deletedPostId) {
+        queryClient.setQueryData<Post[]>(['posts'], (previousPosts = []) =>
+          previousPosts.filter(post => post.id !== deletedPostId)
+        )
+      }
       reset()
     },
     onError: (err:any) => {

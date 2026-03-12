@@ -22,18 +22,23 @@ export const useSubscribePosts = () => {
             console.log('previousPostsなし！')
             previousPosts = []
           }
+          const insertedPost = {
+            id: payload.new.id,
+            created_at: payload.new.created_at,
+            title: payload.new.title,
+            post_url: payload.new.post_url,
+            user_id: payload.new.user_id
+          }
           queryClient.setQueryData(
             ['posts'],
-            [
-              {
-                id: payload.new.id,
-                created_at: payload.new.created_at,
-                title: payload.new.title,
-                post_url: payload.new.post_url,
-                user_id: payload.new.user_id
-              },
-              ...previousPosts
-            ]
+            previousPosts.some(post => post.id === insertedPost.id)
+              ? previousPosts.map(post => (
+                  post.id === insertedPost.id ? insertedPost : post
+                ))
+              : [
+                  insertedPost,
+                  ...previousPosts
+                ]
           )
       }) 
       .on('postgres_changes', 
