@@ -7,6 +7,9 @@ import { useDownloadUrl } from '@/hooks/useDownloadUrl'
 import { useUploadAvatarImg } from '@/hooks/useUploadAvatarImg'
 import { Spinner } from './Spinner'
 import { useMutateProfile } from '@/hooks/useMutateProfile'
+import { MyNoteForm } from './MyNoteForm'
+import { useQueryMyNotes } from '@/hooks/useQueryMyNotes'
+import { MyNoteItem } from './MyNoteItem'
 
 export const UserProfile: FC = () => {
   const session = useStore((state) => state.session)
@@ -15,6 +18,7 @@ export const UserProfile: FC = () => {
   const { data: profile } = useQueryProfile()
   const { updateProfileMutation } = useMutateProfile()
   const { useMutateUploadAvatarImg } = useUploadAvatarImg()
+  const { data: myNotes } = useQueryMyNotes()
   const { fullUrl: avatarUrl, isLoading } = useDownloadUrl(
     editedProfile.avatar_url,
     'avatars'
@@ -32,7 +36,7 @@ export const UserProfile: FC = () => {
   //   console.log('new Date(profile.created_at)', new Date(profile.created_at))
   // }
   return (
-    <div className="flex w-full flex-col items-center justify-center px-8 pt-4">
+    <div className="flex w-full flex-col items-center justify-center px-4 pt-4">
       <p className="mb-4 ">Profile</p>
       <p>{profile?.username}</p>
       {/* {profile?.created_at && (
@@ -106,6 +110,17 @@ export const UserProfile: FC = () => {
         {updateProfileMutation.isLoading ? 'Loading...' : 'Update'}
       </button>
       <div className="my-3 w-full border border-dashed border-gray-400" />
+      <MyNoteForm />
+      <ul data-testid="ul-my-note" className="my-2 w-full">
+        {myNotes?.map((myNote) => (
+          <MyNoteItem
+            key={myNote.id}
+            id={myNote.id}
+            content={myNote.content}
+            user_id={myNote.user_id}
+          />
+        ))}
+      </ul>
     </div>
   )
 }

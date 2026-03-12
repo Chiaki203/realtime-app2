@@ -25,6 +25,14 @@ export type EditedNotice = {
   content: string
 }
 
+export type MyNote = {
+  id: string
+  created_at: string
+  updated_at: string
+  user_id: string | undefined
+  content: string
+}
+
 export type Post = {
   id: string
   created_at: string

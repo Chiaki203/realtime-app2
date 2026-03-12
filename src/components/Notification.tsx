@@ -8,10 +8,10 @@ export const Notification: FC = () => {
   const { data: notices } = useQueryNotices()
   useSubscribeNotices()
   return (
-    <div className="flex w-full flex-col items-center justify-center px-8 pt-4">
+    <div className="flex w-full flex-col items-center justify-center px-4 pt-4">
       <p className="mb-4 text-center">Notification</p>
       <NoticeForm />
-      <ul data-testid="ul-notice" className="my-5">
+      <ul data-testid="ul-notice" className="my-2">
         {notices?.map((notice) => (
           <NoticeItem
             key={notice.id}

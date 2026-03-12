@@ -14,7 +14,7 @@ export const NoticeItemMemo: FC<Omit<Notice, 'created_at'>> = ({
   const { deleteNoticeMutation } = useMutateNotice()
   return (
     <li className="my-3">
-      <div>{content}</div>
+      <div className="text-sm">{content}</div>
       {session?.user?.id === user_id && (
         <div className="  flex ">
           <PencilAltIcon

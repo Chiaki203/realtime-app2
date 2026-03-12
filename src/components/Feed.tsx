@@ -10,7 +10,7 @@ export const Feed: FC = () => {
   useSubscribePosts()
   useSubscribeCommentCounts()
   return (
-    <div className="flex w-full flex-col items-center justify-center px-4 pt-4 md:px-8">
+    <div className="flex w-full flex-col items-center justify-center px-4 pt-4 md:px-4">
       <p className="mb-4 hidden text-center md:block">Feed</p>
       <PostForm />
       <ul data-testid="ul-post" className="my-5 w-full">
