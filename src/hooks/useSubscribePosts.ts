@@ -25,13 +25,14 @@ export const useSubscribePosts = () => {
           queryClient.setQueryData(
             ['posts'],
             [
-              ...previousPosts, {
+              {
                 id: payload.new.id,
                 created_at: payload.new.created_at,
                 title: payload.new.title,
                 post_url: payload.new.post_url,
                 user_id: payload.new.user_id
-              }
+              },
+              ...previousPosts
             ]
           )
       }) 

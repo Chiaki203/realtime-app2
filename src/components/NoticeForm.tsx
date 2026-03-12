@@ -1,45 +1,46 @@
-import { FormEvent, FC, memo } from 'react';
-import useStore from '@/store';
-import { useMutateNotice } from '@/hooks/useMutateNotice';
+import { FormEvent, FC, memo } from 'react'
+import useStore from '@/store'
+import { useMutateNotice } from '@/hooks/useMutateNotice'
 
-export const NoticeFormMemo:FC = () => {
-  const session = useStore(state => state.session)
+export const NoticeFormMemo: FC = () => {
+  const session = useStore((state) => state.session)
   // console.log('noticeForm session', session)
   // const {editedNotice} = useStore()
-  const editedNotice = useStore(state => state.editedNotice)
-  const update = useStore(state => state.updateEditedNotice)
-  const {createNoticeMutation, updateNoticeMutation} = useMutateNotice()
-  const submitHandler = (e:FormEvent<HTMLFormElement>) => {
+  const editedNotice = useStore((state) => state.editedNotice)
+  const update = useStore((state) => state.updateEditedNotice)
+  const { createNoticeMutation, updateNoticeMutation } = useMutateNotice()
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (editedNotice.id === '') {
       createNoticeMutation.mutate({
         content: editedNotice.content,
-        user_id: session?.user?.id
+        user_id: session?.user?.id,
       })
     } else {
       updateNoticeMutation.mutate({
         id: editedNotice.id,
-        content: editedNotice.content
+        content: editedNotice.content,
       })
     }
   }
   return (
-    <form onSubmit={submitHandler}>
+    <form className=" w-full " onSubmit={submitHandler}>
       <input
         type="text"
-        className='my-1 rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none'
-        placeholder='New Notice?'
+        className="my-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none"
+        placeholder="New Notice?"
         value={editedNotice.content}
-        onChange={e => update({...editedNotice, content: e.target.value})}
+        onChange={(e) => update({ ...editedNotice, content: e.target.value })}
       />
-      <div className='my-3 flex justify-center'>
+      <div className="my-3 flex w-full justify-center">
         <button
           type="submit"
           data-testid="btn-notice"
-          className={`rounded px-3 py-2 text-sm text-white ${
+          className={`w-full rounded px-3 py-2 text-sm text-white ${
             editedNotice.content ? 'bg-indigo-600' : 'bg-gray-300'
           }`}
-          disabled={!editedNotice.content}>
+          disabled={!editedNotice.content}
+        >
           {editedNotice.id ? 'Update' : 'Create'}
         </button>
       </div>

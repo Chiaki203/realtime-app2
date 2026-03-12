@@ -1,13 +1,13 @@
-import { useQuery } from 'react-query';
-import { supabase } from '@/utils/supabase';
-import { Post } from '@/types';
+import { useQuery } from 'react-query'
+import { supabase } from '@/utils/supabase'
+import { Post } from '@/types'
 
 export const useQueryPosts = () => {
-  const getPosts = async() => {
-    const {data, error} = await supabase
+  const getPosts = async () => {
+    const { data, error } = await supabase
       .from('posts')
       .select('*')
-      .order('created_at', {ascending: true})
+      .order('created_at', { ascending: false })
     if (error) {
       throw new Error(error.message)
     }
@@ -18,6 +18,6 @@ export const useQueryPosts = () => {
     staleTime: Infinity,
     onSuccess: () => {
       console.log('useQueryPosts onSuccess!')
-    }
+    },
   })
 }

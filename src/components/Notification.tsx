@@ -1,18 +1,18 @@
-import { FC } from 'react';
-import { useQueryNotices } from '@/hooks/useQueryNotices';
-import { useSubscribeNotices } from '@/hooks/useSubscribeNotices';
-import { NoticeItem } from './NoticeItem';
-import { NoticeForm } from './NoticeForm';
+import { FC } from 'react'
+import { useQueryNotices } from '@/hooks/useQueryNotices'
+import { useSubscribeNotices } from '@/hooks/useSubscribeNotices'
+import { NoticeItem } from './NoticeItem'
+import { NoticeForm } from './NoticeForm'
 
-export const Notification:FC = () => {
-  const {data:notices} = useQueryNotices()
+export const Notification: FC = () => {
+  const { data: notices } = useQueryNotices()
   useSubscribeNotices()
   return (
-    <>
-      <p className='mb-4 text-center'>Notification</p>
-      <NoticeForm/>
-      <ul data-testid="ul-notice" className='my-5'>
-        {notices?.map(notice => (
+    <div className="flex w-full flex-col items-center justify-center px-8 pt-4">
+      <p className="mb-4 text-center">Notification</p>
+      <NoticeForm />
+      <ul data-testid="ul-notice" className="my-5">
+        {notices?.map((notice) => (
           <NoticeItem
             key={notice.id}
             id={notice.id}
@@ -21,6 +21,6 @@ export const Notification:FC = () => {
           />
         ))}
       </ul>
-    </>
+    </div>
   )
 }

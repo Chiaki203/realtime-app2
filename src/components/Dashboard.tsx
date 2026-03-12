@@ -1,75 +1,82 @@
-import { FC, Suspense } from 'react'
-import { useQueryClient } from 'react-query'
+import { FC, ReactNode, Suspense, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { LogoutIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
-import { supabase } from '@/utils/supabase'
-import useStore from '@/store'
+import { ExclamationCircleIcon } from '@heroicons/react/solid'
 import { Spinner } from './Spinner'
 import { UserProfile } from './UserProfile'
 import { Notification } from './Notification'
 import { Feed } from './Feed'
 
-export const Dashboard: FC = () => {
-  const queryClient = useQueryClient()
-  const resetProfile = useStore((state) => state.resetEditedProfile)
-  const resetNotice = useStore((state) => state.resetEditedNotice)
-  const resetPost = useStore((state) => state.resetEditedPost)
-  const editedProfile = useStore((state) => state.editedProfile)
-  const editedNotice = useStore((state) => state.editedNotice)
-  // console.log('editedProfile', editedProfile)
-  // console.log('editedNotice', editedNotice)
-  const signOut = async () => {
-    resetProfile()
-    resetNotice()
-    resetPost()
-    await supabase.auth.signOut()
-    queryClient.removeQueries(['profile'])
-    queryClient.removeQueries(['notices'])
-    queryClient.removeQueries(['posts'])
-  }
+type TabKey = 'Profile' | 'Feed' | 'Notification'
+
+const DashboardBoundary: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <div className="flex h-full min-h-0 w-full flex-col">
-      <div className="flex items-center justify-end px-6 py-4">
-        <LogoutIcon
-          data-testid="logout"
-          className="h-6 w-6 cursor-pointer text-blue-500"
-          onClick={signOut}
-        />
+    <ErrorBoundary
+      fallback={
+        <ExclamationCircleIcon className="my-5 h-10 w-10 text-pink-500" />
+      }
+    >
+      <Suspense fallback={<Spinner />}>{children}</Suspense>
+    </ErrorBoundary>
+  )
+}
+
+const DashboardPanel: FC<{ children: ReactNode }> = ({ children }) => {
+  return (
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col items-center overflow-y-auto">
+      <DashboardBoundary>{children}</DashboardBoundary>
+    </div>
+  )
+}
+
+export const Dashboard: FC = () => {
+  const [activeTab, setActiveTab] = useState<TabKey>('Feed')
+
+  return (
+    <div className="flex w-full flex-col md:h-full md:min-h-0">
+      <div className="px-4 pt-2 sm:px-6 md:hidden">
+        <div role="tablist" aria-label="Dashboard tabs">
+          <div className="flex w-full rounded-lg border border-gray-200 bg-white/70 p-1 backdrop-blur">
+            {(['Profile', 'Feed', 'Notification'] as const).map((tab) => {
+              const isActive = tab === activeTab
+              return (
+                <button
+                  key={tab}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${
+                    isActive
+                      ? 'bg-indigo-600 text-white shadow-sm'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  {tab}
+                </button>
+              )
+            })}
+          </div>
+        </div>
       </div>
-      <div className="grid min-h-0 flex-1 grid-cols-3 gap-6 overflow-hidden px-6 pb-6">
-        <div className="flex min-h-0 flex-col items-center overflow-y-auto">
-          <ErrorBoundary
-            fallback={
-              <ExclamationCircleIcon className="my-5 h-10 w-10 text-pink-500" />
-            }
-          >
-            <Suspense fallback={<Spinner />}>
-              <UserProfile />
-            </Suspense>
-          </ErrorBoundary>
-        </div>
-        <div className="flex min-h-0 flex-col items-center overflow-y-auto">
-          <ErrorBoundary
-            fallback={
-              <ExclamationCircleIcon className="my-5 h-10 w-10 text-pink-500" />
-            }
-          >
-            <Suspense fallback={<Spinner />}>
-              <Feed />
-            </Suspense>
-          </ErrorBoundary>
-        </div>
-        <div className="flex min-h-0 flex-col items-center overflow-y-auto">
-          <ErrorBoundary
-            fallback={
-              <ExclamationCircleIcon className="my-5 h-10 w-10 text-pink-500" />
-            }
-          >
-            <Suspense fallback={<Spinner />}>
-              <Notification />
-            </Suspense>
-          </ErrorBoundary>
-        </div>
+
+      <div className="px-4 pb-6 pt-4 sm:px-6 md:hidden">
+        <DashboardBoundary>
+          {activeTab === 'Profile' && <UserProfile />}
+          {activeTab === 'Feed' && <Feed />}
+          {activeTab === 'Notification' && <Notification />}
+        </DashboardBoundary>
+      </div>
+
+      <div className="hidden min-h-0 flex-1 grid-cols-[2fr_3fr_2fr] gap-6 overflow-hidden px-6  md:grid">
+        <DashboardPanel>
+          <UserProfile />
+        </DashboardPanel>
+        <DashboardPanel>
+          <Feed />
+        </DashboardPanel>
+        <DashboardPanel>
+          <Notification />
+        </DashboardPanel>
       </div>
     </div>
   )

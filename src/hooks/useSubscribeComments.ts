@@ -26,14 +26,14 @@ export const useSubscribeComments = (postId:string) => {
           queryClient.setQueryData(
             ['comments', postId],
             [
-              ...previousComments,
               {
                 id: payload.new.id,
                 created_at: payload.new.created_at,
                 user_id: payload.new.user_id,
                 post_id: payload.new.post_id,
                 comment: payload.new.comment
-              }
+              },
+              ...previousComments
             ]
           )
         }
@@ -63,7 +63,7 @@ export const useSubscribeComments = (postId:string) => {
           )
       })
       .on('postgres_changes', 
-        {event: 'DELETE', schema: 'public', table: 'comments', filter: `post_id=eq.${postId}`}, 
+        {event: 'DELETE', schema: 'public', table: 'comments'}, 
         (payload:RealtimePostgresDeletePayload<Comment>) => {
           console.log('subscribeComments delete payload', payload)
           let previousComments = queryClient.getQueryData<Comment[]>(['comments', postId])

@@ -23,7 +23,7 @@ export const CommentsMemo: FC<Props> = ({ postId }) => {
         editedComment={editedComment}
         setEditedComment={setEditedComment}
       />
-      <ul data-testid="ul-comment" className="my-5">
+      <ul data-testid="ul-comment" className="mt-2">
         {comments?.map((comment) => (
           <CommentItem
             key={comment.id}

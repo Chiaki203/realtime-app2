@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import Image from 'next/image'
-import { CameraIcon } from '@heroicons/react/solid'
 import { format } from 'date-fns'
 import useStore from '@/store'
 import { useQueryProfile } from '@/hooks/useQueryProfile'
@@ -33,9 +32,10 @@ export const UserProfile: FC = () => {
   //   console.log('new Date(profile.created_at)', new Date(profile.created_at))
   // }
   return (
-    <>
+    <div className="flex w-full flex-col items-center justify-center px-8 pt-4">
+      <p className="mb-4 ">Profile</p>
       <p>{profile?.username}</p>
-      {profile?.created_at && (
+      {/* {profile?.created_at && (
         <p className="my-1 text-sm">
           {format(new Date(profile.created_at), 'yyyy-MM-dd HH:mm:ss')}
         </p>
@@ -44,8 +44,32 @@ export const UserProfile: FC = () => {
         <p className="text-sm">
           {format(new Date(profile.updated_at), 'yyyy-MM-dd HH:mm:ss')}
         </p>
-      )}
-      <p className="mt-4">Username</p>
+      )} */}
+      <label
+        htmlFor="avatar"
+        className="group relative my-4 h-[140px] w-[140px] cursor-pointer select-none overflow-hidden rounded-full bg-gray-100"
+        title="Change avatar"
+      >
+        <Image
+          src={avatarUrl || '/avatar-placeholder.svg'}
+          alt="Avatar"
+          fill
+          sizes="140px"
+          className="object-cover"
+        />
+        <span className="absolute inset-0 hidden items-center justify-center rounded-full bg-black/40 text-xs font-medium text-white group-hover:flex">
+          Change
+        </span>
+      </label>
+      <input
+        className="hidden"
+        type="file"
+        id="avatar"
+        accept="image/*"
+        onChange={(e) => useMutateUploadAvatarImg.mutate(e)}
+      />
+      {isLoading && <Spinner />}
+      <p className="">Username</p>
       <input
         className="mx-2 my-2 rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none"
         type="text"
@@ -58,7 +82,7 @@ export const UserProfile: FC = () => {
           })
         }
       />
-      <p>Favorites</p>
+      {/* <p>Favorites</p>
       <input
         className="mx-2 my-2 rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none"
         type="text"
@@ -69,9 +93,9 @@ export const UserProfile: FC = () => {
             favorites: e.target.value,
           })
         }
-      />
+      /> */}
       <button
-        className={`my-5 rounded px-3 py-2 text-sm font-medium text-white ${
+        className={`my-2 rounded px-3 py-2 text-sm font-medium text-white ${
           updateProfileMutation.isLoading || !editedProfile.username
             ? 'bg-gray-400'
             : 'bg-indigo-600'
@@ -81,28 +105,7 @@ export const UserProfile: FC = () => {
       >
         {updateProfileMutation.isLoading ? 'Loading...' : 'Update'}
       </button>
-      {avatarUrl && (
-        <Image
-          src={avatarUrl}
-          alt="Avatar"
-          className="rounded-full"
-          width={120}
-          height={120}
-        />
-      )}
-      {isLoading && <Spinner />}
-      <div className="flex justify-center">
-        <label htmlFor="avatar">
-          <CameraIcon className="my-3 h-7 w-7 cursor-pointer text-gray-500" />
-        </label>
-        <input
-          className="hidden"
-          type="file"
-          id="avatar"
-          accept="image/*"
-          onChange={(e) => useMutateUploadAvatarImg.mutate(e)}
-        />
-      </div>
-    </>
+      <div className="my-3 w-full border border-dashed border-gray-400" />
+    </div>
   )
 }
