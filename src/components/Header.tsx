@@ -19,7 +19,7 @@ export const Header = () => {
   }
   return (
     <header className="app-header flex items-center justify-between px-4 py-4 md:px-10">
-      <p className="font-medium">Workspace</p>
+      <p className="text-lg font-medium">Workspace</p>
       <LogoutIcon
         data-testid="logout"
         className="app-icon-accent h-5 w-5 cursor-pointer"

@@ -7,11 +7,14 @@ import { useDownloadUrl } from '@/hooks/useDownloadUrl'
 import { useUploadPostImg } from '@/hooks/useUploadPostImg'
 import { Spinner } from './Spinner'
 
+const POST_MAX_LENGTH = 1000
+
 export const PostFormMemo: FC = () => {
   const session = useStore((state) => state.session)
   const editedPost = useStore((state) => state.editedPost)
   const update = useStore((state) => state.updateEditedPost)
-  const { createPostMutation, updatePostMutation } = useMutatePost()
+  const reset = useStore((state) => state.resetEditedPost)
+  const { createPostMutation } = useMutatePost()
   const { useMutateUploadPostImg } = useUploadPostImg()
 
   console.log('PostForm editedPost.post_url', editedPost.post_url)
@@ -22,25 +25,15 @@ export const PostFormMemo: FC = () => {
   )
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (editedPost.id === '') {
-      await createPostMutation.mutateAsync({
-        user_id: session?.user?.id,
-        title: editedPost.title,
-        post_url: editedPost.post_url,
-      })
-      setFullUrl('')
-      console.log('プレビュー終了')
-      console.log('editedPost.post_url', editedPost.post_url)
-    } else {
-      await updatePostMutation.mutateAsync({
-        id: editedPost.id,
-        title: editedPost.title,
-        post_url: editedPost.post_url,
-      })
-      setFullUrl('')
-      console.log('プレビュー終了')
-      console.log('editedPost.post_url', editedPost.post_url)
-    }
+    await createPostMutation.mutateAsync({
+      user_id: session?.user?.id,
+      title: editedPost.title,
+      post_url: editedPost.post_url,
+    })
+    reset()
+    setFullUrl('')
+    console.log('プレビュー終了')
+    console.log('editedPost.post_url', editedPost.post_url)
   }
   // console.log('editedPost post_url', editedPost.post_url)
   return (
@@ -48,13 +41,6 @@ export const PostFormMemo: FC = () => {
       onSubmit={submitHandler}
       className="flex w-full flex-col items-center justify-center"
     >
-      <input
-        type="text"
-        className="app-input my-1 w-full"
-        placeholder="New Post"
-        value={editedPost.title}
-        onChange={(e) => update({ ...editedPost, title: e.target.value })}
-      />
       <div className="flex w-full items-start justify-start">
         <label
           htmlFor="post"
@@ -91,6 +77,16 @@ export const PostFormMemo: FC = () => {
       <div className="flex justify-center">
         {useMutateUploadPostImg.isLoading && <Spinner />}
       </div>
+      <textarea
+        className="app-input my-1 min-h-[112px] w-full resize-none"
+        placeholder="Write a caption"
+        value={editedPost.title}
+        maxLength={POST_MAX_LENGTH}
+        onChange={(e) => update({ ...editedPost, title: e.target.value })}
+      />
+      <div className="w-full text-right text-xs text-[var(--color-muted)]">
+        {editedPost.title.length} / {POST_MAX_LENGTH}
+      </div>
       <div className="my-3 flex w-full justify-center">
         <button
           data-testid="btn-post"
@@ -98,7 +94,7 @@ export const PostFormMemo: FC = () => {
           className="app-button w-full"
           disabled={useMutateUploadPostImg.isLoading || !editedPost.title}
         >
-          {editedPost.id ? 'Update' : 'Create'}
+          Create
         </button>
       </div>
     </form>

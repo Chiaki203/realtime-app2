@@ -23,7 +23,7 @@ export const MyNoteFormMemo: FC = () => {
         <input
           type="text"
           className="app-input my-1 w-full"
-          placeholder="New Note?"
+          placeholder="New Note"
           value={note}
           onChange={(e) => setNote(e.target.value)}
         />

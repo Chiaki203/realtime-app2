@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useQueryPosts } from '@/hooks/useQueryPosts'
 import { useSubscribeCommentCounts } from '@/hooks/useSubscribeCommentCounts'
 import { useSubscribePosts } from '@/hooks/useSubscribePosts'
@@ -6,6 +6,7 @@ import { PostItem } from './PostItem'
 import { PostForm } from './PostForm'
 
 export const Feed: FC = () => {
+  const [editingPostId, setEditingPostId] = useState<string | null>(null)
   const { data: posts } = useQueryPosts()
   useSubscribePosts()
   useSubscribeCommentCounts()
@@ -21,6 +22,9 @@ export const Feed: FC = () => {
             title={post.title}
             post_url={post.post_url}
             user_id={post.user_id}
+            isEditing={editingPostId === post.id}
+            startEditing={() => setEditingPostId(post.id)}
+            stopEditing={() => setEditingPostId(null)}
           />
         ))}
       </ul>

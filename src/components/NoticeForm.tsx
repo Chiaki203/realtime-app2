@@ -28,7 +28,7 @@ export const NoticeFormMemo: FC = () => {
       <input
         type="text"
         className="app-input my-1 w-full"
-        placeholder="New Notice?"
+        placeholder="New Notice"
         value={editedNotice.content}
         onChange={(e) => update({ ...editedNotice, content: e.target.value })}
       />

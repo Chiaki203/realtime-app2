@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from 'react-query';
-import useStore from '@/store';
 import { supabase } from '@/utils/supabase';
 import { Post, EditedPost } from '@/types';
 
 export const useMutatePost = () => {
   const queryClient = useQueryClient()
-  const reset = useStore(state => state.resetEditedPost)
   const createPostMutation = useMutation(async(post:Omit<Post, 'id' | 'created_at'>) => {
     const {data, error} = await supabase
       .from('posts')
@@ -23,11 +21,9 @@ export const useMutatePost = () => {
           return [createdPost, ...filteredPosts]
         })
       }
-      reset()
     },
     onError: (err:any) => {
       alert(err.message)
-      reset()
     }
   })
   const updatePostMutation = useMutation(async(post:EditedPost) => {
@@ -49,11 +45,9 @@ export const useMutatePost = () => {
           ))
         )
       }
-      reset()
     },
     onError: (err:any) => {
       alert(err.message)
-      reset()
     }
   })
   const deletePostMutation = useMutation(async(id:string) => {
@@ -73,11 +67,9 @@ export const useMutatePost = () => {
           previousPosts.filter(post => post.id !== deletedPostId)
         )
       }
-      reset()
     },
     onError: (err:any) => {
       alert(err.message)
-      reset()
     }
   })
   return {createPostMutation, updatePostMutation, deletePostMutation}
