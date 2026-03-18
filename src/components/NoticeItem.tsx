@@ -21,19 +21,24 @@ export const NoticeItemMemo: FC<Omit<Notice, 'created_at'>> = ({
   return (
     <li className="my-3">
       <div className="mb-2 flex items-center justify-between">
-        {avatarUrl ? (
-          <div className="relative h-6 w-6 overflow-hidden rounded-full bg-gray-100">
-            <Image
-              src={avatarUrl}
-              alt="avatar"
-              fill
-              sizes="24px"
-              className="object-cover"
-            />
-          </div>
-        ) : (
-          <UserCircleIcon className="app-icon-muted inline-block h-6 w-6 cursor-pointer" />
-        )}
+        <div className="flex min-w-0 items-center">
+          {avatarUrl ? (
+            <div className="relative h-6 w-6 overflow-hidden rounded-full bg-gray-100">
+              <Image
+                src={avatarUrl}
+                alt="avatar"
+                fill
+                sizes="24px"
+                className="object-cover"
+              />
+            </div>
+          ) : (
+            <UserCircleIcon className="app-icon-muted inline-block h-6 w-6 cursor-pointer" />
+          )}
+          <span className="ml-2 truncate text-sm font-bold">
+            {data?.username || 'Anonymous'}
+          </span>
+        </div>
         {session?.user?.id === user_id && (
           <ItemActionMenu
             menuTestId="menu-notice"

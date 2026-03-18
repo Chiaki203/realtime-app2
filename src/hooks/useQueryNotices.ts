@@ -1,13 +1,13 @@
-import { useQuery } from 'react-query';
-import { supabase } from '@/utils/supabase';
-import { Notice } from '@/types';
+import { useQuery } from 'react-query'
+import { supabase } from '@/utils/supabase'
+import { Notice } from '@/types'
 
 export const useQueryNotices = () => {
-  const getNotices = async() => {
-    const {data, error} = await supabase
+  const getNotices = async () => {
+    const { data, error } = await supabase
       .from('notices')
       .select('*')
-      .order('created_at', {ascending: true})
+      .order('created_at', { ascending: false })
     if (error) throw new Error(error.message)
     console.log('getNotices supabase data', data)
     return data as Notice[]
@@ -16,6 +16,6 @@ export const useQueryNotices = () => {
     staleTime: Infinity,
     onSuccess: (_) => {
       console.log('useQueryNotices onSuccess!')
-    }
+    },
   })
 }

@@ -8,7 +8,7 @@ type Props = {
 
 export const Layout: FC<Props> = ({ children, title = 'Realtime App' }) => {
   return (
-    <div className="flex min-h-[100dvh] overflow-x-hidden flex-col font-mono text-gray-800 md:h-screen">
+    <div className="flex min-h-[100dvh] flex-col overflow-x-hidden font-mono text-gray-800 md:h-screen">
       <Head>
         <title>{title}</title>
         <meta
@@ -17,7 +17,7 @@ export const Layout: FC<Props> = ({ children, title = 'Realtime App' }) => {
         />
       </Head>
       <Header />
-      <main className="flex min-h-0 w-full flex-1 flex-col items-center justify-start overflow-x-hidden overflow-y-auto md:justify-center md:overflow-hidden">
+      <main className="flex min-h-0 w-full flex-1 flex-col items-center justify-start overflow-y-auto overflow-x-hidden md:justify-center md:overflow-hidden">
         {children}
       </main>
       {/* <footer className="flex h-12 w-full items-center justify-center border-t">

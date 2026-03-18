@@ -26,10 +26,10 @@ export const CommentItemMemo: FC<Props> = ({
   const { deleteCommentMutation } = useMutateComment()
   const { fullUrl: avatarUrl } = useDownloadUrl(data?.avatar_url, 'avatars')
   return (
-    <li className="mt-3 flex items-center justify-between">
-      <div className="flex">
+    <li className="mt-3 flex items-start justify-between gap-2">
+      <div className="flex min-w-0 flex-1 items-start">
         {avatarUrl ? (
-          <div className="relative h-6 w-6 overflow-hidden rounded-full bg-gray-100">
+          <div className="relative mt-0.5 h-6 w-6 shrink-0 overflow-hidden rounded-full bg-gray-100">
             <Image
               src={avatarUrl}
               alt="avatar"
@@ -39,22 +39,29 @@ export const CommentItemMemo: FC<Props> = ({
             />
           </div>
         ) : (
-          <UserCircleIcon className="app-icon-muted inline-block h-6 w-6 cursor-pointer" />
+          <UserCircleIcon className="app-icon-muted mt-0.5 inline-block h-6 w-6 shrink-0 cursor-pointer" />
         )}
-        <span className="mx-1 text-sm">{comment}</span>
+        <div className="ml-2 min-w-0 flex-1 text-sm leading-6">
+          <span className="mr-2 font-bold">
+            {data?.username || 'Anonymous'}
+          </span>
+          <span className="whitespace-pre-wrap break-words">{comment}</span>
+        </div>
       </div>
       {session?.user?.id === user_id && (
-        <ItemActionMenu
-          menuTestId="menu-comment"
-          editTestId="edit-comment"
-          deleteTestId="delete-comment"
-          onEdit={() => {
-            setEditedComment({ id: id, comment: comment })
-          }}
-          onDelete={() => {
-            deleteCommentMutation.mutate(id)
-          }}
-        />
+        <div className="shrink-0">
+          <ItemActionMenu
+            menuTestId="menu-comment"
+            editTestId="edit-comment"
+            deleteTestId="delete-comment"
+            onEdit={() => {
+              setEditedComment({ id: id, comment: comment })
+            }}
+            onDelete={() => {
+              deleteCommentMutation.mutate(id)
+            }}
+          />
+        </div>
       )}
     </li>
   )

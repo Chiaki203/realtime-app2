@@ -4,6 +4,8 @@ import useStore from '@/store';
 import { Profile } from '@/types';
 import { useMutateProfile } from './useMutateProfile';
 
+const DEFAULT_USERNAME = 'Anonymous'
+
 export const useQueryProfile = () => {
   const session = useStore(state => state.session)
   const editedProfile = useStore(state => state.editedProfile)
@@ -20,13 +22,13 @@ export const useQueryProfile = () => {
       console.log('create default profile!')
       createProfileMutation.mutate({
         id: session?.user?.id,
-        username: session?.user?.email,
+        username: DEFAULT_USERNAME,
         favorites: '',
         avatar_url: ''
       })
       update({
         ...editedProfile,
-        username: session?.user?.email
+        username: DEFAULT_USERNAME
       })
     }
     if (error && status !== 406) {
