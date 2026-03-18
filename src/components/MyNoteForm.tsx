@@ -22,7 +22,7 @@ export const MyNoteFormMemo: FC = () => {
       <form className="w-full" onSubmit={submitHandler}>
         <input
           type="text"
-          className="my-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none"
+          className="app-input my-1 w-full"
           placeholder="New Note?"
           value={note}
           onChange={(e) => setNote(e.target.value)}

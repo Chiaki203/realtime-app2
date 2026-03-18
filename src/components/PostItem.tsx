@@ -1,8 +1,6 @@
 import { FC, useState, Suspense, memo } from 'react'
 import Image from 'next/image'
 import {
-  PencilAltIcon,
-  TrashIcon,
   ExclamationCircleIcon,
   UserCircleIcon,
 } from '@heroicons/react/solid'
@@ -16,6 +14,7 @@ import { useQueryCommentCount } from '@/hooks/useQueryCommentCount'
 import { useQueryAvatar } from '@/hooks/useQueryAvatar'
 import { useDownloadUrl } from '@/hooks/useDownloadUrl'
 import { Comments } from './Comments'
+import { ItemActionMenu } from './ItemActionMenu'
 
 export const PostItemMemo: FC<Omit<Post, 'created_at'>> = ({
   id,
@@ -40,7 +39,7 @@ export const PostItemMemo: FC<Omit<Post, 'created_at'>> = ({
   return (
     <>
       <li className="w-full">
-        <div className="my-5 w-full border border-dashed border-gray-400" />
+        <div className="app-divider my-5 w-full border border-dashed" />
         <div className="flex items-center justify-between">
           <div className="flex">
             {avatarUrl ? (
@@ -54,27 +53,24 @@ export const PostItemMemo: FC<Omit<Post, 'created_at'>> = ({
                 />
               </div>
             ) : (
-              <UserCircleIcon className="inline-block h-6 w-6 cursor-pointer text-gray-500" />
+              <UserCircleIcon className="app-icon-muted inline-block h-6 w-6 cursor-pointer" />
             )}
             <span className="ml-2 font-bold">{title}</span>
           </div>
           {session?.user?.id === user_id && (
-            <div className="flex pr-4">
-              <PencilAltIcon
-                data-testid="pencil-post"
-                className="mx-1 h-5 w-5 cursor-pointer text-blue-500"
-                onClick={() => {
+            <div className="pr-2">
+              <ItemActionMenu
+                menuTestId="menu-post"
+                editTestId="edit-post"
+                deleteTestId="delete-post"
+                onEdit={() => {
                   update({
                     id: id,
                     title: title,
                     post_url: post_url,
                   })
                 }}
-              />
-              <TrashIcon
-                data-testid="trash-post"
-                className="h-5 w-5 cursor-pointer text-blue-500"
-                onClick={() => {
+                onDelete={() => {
                   deletePostMutation.mutate(id)
                 }}
               />
@@ -99,20 +95,20 @@ export const PostItemMemo: FC<Omit<Post, 'created_at'>> = ({
             <Spinner />
           </div>
         )}
-	        <div className=" mt-2 flex items-center justify-start">
-	          <div className="flex items-center">
-	            <ChatIcon
-	              data-testid="open-comments"
-	              className="ml-2 h-6 w-6 cursor-pointer text-blue-500"
-	              onClick={() => setOpenComments(!openComments)}
-	            />
-	            {(commentCount ?? 0) > 0 && (
-	              <span className="ml-1 align-text-bottom text-sm text-blue-500">
-	                {commentCount}
-	              </span>
-	            )}
-	          </div>
-	        </div>
+        <div className="mt-2 flex items-center justify-start">
+          <div className="flex items-center">
+            <ChatIcon
+              data-testid="open-comments"
+              className="app-icon-accent ml-2 h-6 w-6 cursor-pointer"
+              onClick={() => setOpenComments(!openComments)}
+            />
+            {(commentCount ?? 0) > 0 && (
+              <span className="app-icon-accent ml-1 align-text-bottom text-sm">
+                {commentCount}
+              </span>
+            )}
+          </div>
+        </div>
         {openComments && (
           <ErrorBoundary
             fallback={

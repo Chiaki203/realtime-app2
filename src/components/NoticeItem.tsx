@@ -1,8 +1,12 @@
 import { FC, memo } from 'react'
-import { PencilAltIcon, TrashIcon } from '@heroicons/react/solid'
+import Image from 'next/image'
+import { UserCircleIcon } from '@heroicons/react/solid'
 import useStore from '@/store'
 import { Notice } from '@/types'
 import { useMutateNotice } from '@/hooks/useMutateNotice'
+import { useQueryAvatar } from '@/hooks/useQueryAvatar'
+import { useDownloadUrl } from '@/hooks/useDownloadUrl'
+import { ItemActionMenu } from './ItemActionMenu'
 
 export const NoticeItemMemo: FC<Omit<Notice, 'created_at'>> = ({
   id,
@@ -12,28 +16,42 @@ export const NoticeItemMemo: FC<Omit<Notice, 'created_at'>> = ({
   const session = useStore((sta) => sta.session)
   const update = useStore((state) => state.updateEditedNotice)
   const { deleteNoticeMutation } = useMutateNotice()
+  const { data } = useQueryAvatar(user_id)
+  const { fullUrl: avatarUrl } = useDownloadUrl(data?.avatar_url, 'avatars')
   return (
     <li className="my-3">
-      <div className="text-sm">{content}</div>
-      {session?.user?.id === user_id && (
-        <div className="  flex ">
-          <PencilAltIcon
-            className="mx-1 h-5 w-5 cursor-pointer text-blue-500"
-            onClick={() => {
+      <div className="mb-2 flex items-center justify-between">
+        {avatarUrl ? (
+          <div className="relative h-6 w-6 overflow-hidden rounded-full bg-gray-100">
+            <Image
+              src={avatarUrl}
+              alt="avatar"
+              fill
+              sizes="24px"
+              className="object-cover"
+            />
+          </div>
+        ) : (
+          <UserCircleIcon className="app-icon-muted inline-block h-6 w-6 cursor-pointer" />
+        )}
+        {session?.user?.id === user_id && (
+          <ItemActionMenu
+            menuTestId="menu-notice"
+            editTestId="edit-notice"
+            deleteTestId="delete-notice"
+            onEdit={() => {
               update({
                 id: id,
                 content: content,
               })
             }}
-          />
-          <TrashIcon
-            className="h-5 w-5 cursor-pointer text-blue-500"
-            onClick={() => {
+            onDelete={() => {
               deleteNoticeMutation.mutate(id)
             }}
           />
-        </div>
-      )}
+        )}
+      </div>
+      <div className="text-sm">{content}</div>
     </li>
   )
 }

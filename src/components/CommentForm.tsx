@@ -39,7 +39,7 @@ export const CommentFormMemo: FC<Props> = ({
       <div className="flex w-full items-center justify-center">
         <input
           type="text"
-          className="my-2 flex-1 rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none"
+          className="app-input my-2 flex-1"
           placeholder="New Comment"
           value={editedComment.comment}
           onChange={(e) =>
@@ -55,8 +55,8 @@ export const CommentFormMemo: FC<Props> = ({
           disabled={!editedComment.comment}
         >
           <MailIcon
-            className={`ml-3 h-6 w-6 cursor-pointer ${
-              editedComment.comment ? 'text-indigo-500' : 'text-gray-500'
+            className={`ml-3 h-5 w-5 cursor-pointer ${
+              editedComment.comment ? 'app-icon-accent' : 'app-icon-muted'
             }`}
           />
         </button>

@@ -75,7 +75,7 @@ export const UserProfile: FC = () => {
       {isLoading && <Spinner />}
       <p className="">Username</p>
       <input
-        className="mx-2 my-2 rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none"
+        className="app-input mx-2 my-2"
         type="text"
         placeholder="Username"
         value={editedProfile.username || ''}
@@ -99,13 +99,13 @@ export const UserProfile: FC = () => {
         }
       /> */}
       <button
-        className={`my-2 w-[200px] rounded bg-indigo-600 px-3 py-2 text-sm font-medium text-white`}
+        className="app-button my-2 w-[200px]"
         onClick={updateProfile}
         disabled={updateProfileMutation.isLoading || !editedProfile.username}
       >
         {updateProfileMutation.isLoading ? 'Loading...' : 'Update'}
       </button>
-      <div className="my-3 w-full border border-dashed border-gray-400" />
+      <div className="app-divider my-3 w-full border border-dashed" />
       <MyNoteForm />
       <ul data-testid="ul-my-note" className="my-2 w-full">
         {myNotes?.map((myNote) => (

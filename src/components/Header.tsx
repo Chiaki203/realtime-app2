@@ -18,11 +18,11 @@ export const Header = () => {
     queryClient.removeQueries(['posts'])
   }
   return (
-    <header className="flex items-center justify-between bg-gray-200 px-4 py-4 md:px-10">
-      <p>Workspace</p>
+    <header className="app-header flex items-center justify-between px-4 py-4 md:px-10">
+      <p className="font-medium">Workspace</p>
       <LogoutIcon
         data-testid="logout"
-        className="h-6 w-6 cursor-pointer text-blue-500"
+        className="app-icon-accent h-5 w-5 cursor-pointer"
         onClick={signOut}
       />
     </header>

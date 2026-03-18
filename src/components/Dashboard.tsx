@@ -35,7 +35,7 @@ export const Dashboard: FC = () => {
     <div className="flex w-full flex-col md:h-full md:min-h-0">
       <div className="px-4 pt-2 sm:px-6 md:hidden">
         <div role="tablist" aria-label="Dashboard tabs">
-          <div className="flex w-full rounded-lg border border-gray-200 bg-white/70 p-1 backdrop-blur">
+          <div className="app-divider flex w-full rounded-lg border bg-white/80 p-1 backdrop-blur">
             {(['Profile', 'Feed', 'Notification'] as const).map((tab) => {
               const isActive = tab === activeTab
               return (
@@ -45,10 +45,10 @@ export const Dashboard: FC = () => {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTab(tab)}
-                  className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${
+                  className={`app-tab flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${
                     isActive
-                      ? 'bg-indigo-600 text-white shadow-sm'
-                      : 'text-gray-600 hover:bg-gray-100'
+                      ? 'app-tab-active shadow-sm'
+                      : ''
                   }`}
                 >
                   {tab}

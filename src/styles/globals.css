@@ -2,26 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+:root {
+  --color-page: #fcfbf8;
+  --color-header: #f3f1ec;
+  --color-text: #2f3746;
+  --color-border: #cfc8bc;
+  --color-accent: #2f6f6b;
+  --color-accent-hover: #275d59;
+  --color-accent-soft: #e6efee;
+  --color-muted: #77807f;
+  --color-menu-hover: #f2efe8;
+  --color-danger: #b25555;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
+  background-color: var(--color-page);
+  color: var(--color-text);
+}
+
+@layer components {
+  .app-header {
+    background-color: var(--color-header);
+    color: var(--color-text);
+  }
+
+  .app-input {
+    @apply rounded border bg-white px-3 py-2 text-sm focus:outline-none;
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+
+  .app-button {
+    @apply rounded px-3 py-2 text-sm font-medium text-white transition-colors;
+    background-color: var(--color-accent);
+  }
+
+  .app-button:hover:enabled {
+    background-color: var(--color-accent-hover);
+  }
+
+  .app-button:disabled {
+    background-color: #9eb8b4;
+    cursor: not-allowed;
+  }
+
+  .app-link-accent {
+    color: var(--color-accent);
+  }
+
+  .app-link-accent:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .app-icon-accent {
+    color: var(--color-accent);
+  }
+
+  .app-icon-accent:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .app-icon-muted {
+    color: var(--color-muted);
+  }
+
+  .app-divider {
+    border-color: var(--color-border);
+  }
+
+  .app-tab {
+    color: var(--color-text);
+  }
+
+  .app-tab:hover {
+    background-color: var(--color-menu-hover);
+  }
+
+  .app-tab-active {
+    background-color: var(--color-accent);
+    color: white;
+  }
+
+  .app-menu {
+    border-color: var(--color-border);
+    background-color: white;
+  }
+
+  .app-menu-item {
+    color: var(--color-text);
+  }
+
+  .app-menu-item:hover {
+    background-color: var(--color-menu-hover);
+  }
+
+  .app-menu-item-danger {
+    color: var(--color-danger);
+  }
+}

@@ -50,7 +50,7 @@ export const PostFormMemo: FC = () => {
     >
       <input
         type="text"
-        className="my-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none"
+        className="app-input my-1 w-full"
         placeholder="New Post"
         value={editedPost.title}
         onChange={(e) => update({ ...editedPost, title: e.target.value })}
@@ -60,7 +60,7 @@ export const PostFormMemo: FC = () => {
           htmlFor="post"
           className="mt-2 flex cursor-pointer items-center gap-2"
         >
-          <CameraIcon className=" h-7 w-7  text-gray-500" />
+          <CameraIcon className="app-icon-muted h-7 w-7" />
           <span className="text-sm">Upload Image</span>
         </label>
         <input
@@ -95,7 +95,7 @@ export const PostFormMemo: FC = () => {
         <button
           data-testid="btn-post"
           type="submit"
-          className={`w-full rounded bg-indigo-600 px-3 py-2 text-sm text-white`}
+          className="app-button w-full"
           disabled={useMutateUploadPostImg.isLoading || !editedPost.title}
         >
           {editedPost.id ? 'Update' : 'Create'}

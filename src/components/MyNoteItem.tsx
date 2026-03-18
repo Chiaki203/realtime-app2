@@ -14,7 +14,7 @@ export const MyNoteItemMemo: FC<Omit<MyNote, 'created_at' | 'updated_at'>> = ({
       <div className="break-words text-left text-sm">{content}</div>
       <TrashIcon
         data-testid="trash-my-note"
-        className="h-5 w-5 shrink-0 cursor-pointer text-blue-500"
+        className="app-icon-accent h-5 w-5 shrink-0 cursor-pointer"
         onClick={() => {
           deleteMyNoteMutation.mutate(id)
         }}

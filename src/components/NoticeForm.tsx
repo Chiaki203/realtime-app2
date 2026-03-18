@@ -27,7 +27,7 @@ export const NoticeFormMemo: FC = () => {
     <form className=" w-full " onSubmit={submitHandler}>
       <input
         type="text"
-        className="my-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none"
+        className="app-input my-1 w-full"
         placeholder="New Notice?"
         value={editedNotice.content}
         onChange={(e) => update({ ...editedNotice, content: e.target.value })}
@@ -36,7 +36,7 @@ export const NoticeFormMemo: FC = () => {
         <button
           type="submit"
           data-testid="btn-notice"
-          className={`w-full rounded bg-indigo-600 px-3 py-2 text-sm text-white`}
+          className="app-button w-full"
           disabled={!editedNotice.content}
         >
           {editedNotice.id ? 'Update' : 'Create'}

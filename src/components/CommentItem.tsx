@@ -1,15 +1,12 @@
 import { FC, Dispatch, SetStateAction, memo } from 'react'
 import Image from 'next/image'
-import {
-  PencilAltIcon,
-  TrashIcon,
-  UserCircleIcon,
-} from '@heroicons/react/solid'
+import { UserCircleIcon } from '@heroicons/react/solid'
 import useStore from '@/store'
 import { EditedComment } from '@/types'
 import { useQueryAvatar } from '@/hooks/useQueryAvatar'
 import { useMutateComment } from '@/hooks/useMutateComment'
 import { useDownloadUrl } from '@/hooks/useDownloadUrl'
+import { ItemActionMenu } from './ItemActionMenu'
 
 type Props = {
   id: string
@@ -42,27 +39,22 @@ export const CommentItemMemo: FC<Props> = ({
             />
           </div>
         ) : (
-          <UserCircleIcon className="inline-block h-6 w-6 cursor-pointer text-gray-500" />
+          <UserCircleIcon className="app-icon-muted inline-block h-6 w-6 cursor-pointer" />
         )}
         <span className="mx-1 text-sm">{comment}</span>
       </div>
       {session?.user?.id === user_id && (
-        <div className="flex">
-          <PencilAltIcon
-            data-testid="pencil-comment"
-            className="h-5 w-5 cursor-pointer text-blue-500"
-            onClick={() => {
-              setEditedComment({ id: id, comment: comment })
-            }}
-          />
-          <TrashIcon
-            data-testid="trash-comment"
-            className="h-5 w-5 cursor-pointer text-blue-500"
-            onClick={() => {
-              deleteCommentMutation.mutate(id)
-            }}
-          />
-        </div>
+        <ItemActionMenu
+          menuTestId="menu-comment"
+          editTestId="edit-comment"
+          deleteTestId="delete-comment"
+          onEdit={() => {
+            setEditedComment({ id: id, comment: comment })
+          }}
+          onDelete={() => {
+            deleteCommentMutation.mutate(id)
+          }}
+        />
       )}
     </li>
   )
