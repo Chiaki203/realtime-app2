@@ -11,9 +11,9 @@ import { Comment } from '@/types'
 export const useSubscribeComments = (postId: string) => {
   const queryClient = useQueryClient()
   useEffect(() => {
+    const channelName = `public:comments:${postId}:${Math.random().toString(36).slice(2)}`
     const subsc = supabase
-      // .channel(`public:comments:post_id=eq.${postId}`)
-      .channel(`public:comments:${postId}`)
+      .channel(channelName)
       .on(
         'postgres_changes',
         {
@@ -109,13 +109,14 @@ export const useSubscribeComments = (postId: string) => {
           )
         }
       )
-      .subscribe()
-    const removeSubscription = async () => {
-      await supabase.removeChannel(subsc)
-    }
+      .subscribe((status, err) => {
+        console.log('subscribeComments status', status, postId)
+        if (err) {
+          console.error('subscribeComments error', err)
+        }
+      })
     return () => {
-      // subsc.unsubscribe()
-      removeSubscription()
+      supabase.removeChannel(subsc)
     }
   }, [queryClient, postId])
 }

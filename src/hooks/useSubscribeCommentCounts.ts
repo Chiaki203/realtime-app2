@@ -15,8 +15,9 @@ export const useSubscribeCommentCounts = () => {
   const queryClient = useQueryClient()
 
   useEffect(() => {
+    const channelName = `public:comments-counts:${Math.random().toString(36).slice(2)}`
     const subsc = supabase
-      .channel('public:comments-counts')
+      .channel(channelName)
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'comments' },
@@ -77,10 +78,15 @@ export const useSubscribeCommentCounts = () => {
           }
         }
       )
-      .subscribe()
+      .subscribe((status, err) => {
+        console.log('subscribeCommentCounts status', status)
+        if (err) {
+          console.error('subscribeCommentCounts error', err)
+        }
+      })
 
     return () => {
-      subsc.unsubscribe()
+      supabase.removeChannel(subsc)
     }
   }, [queryClient])
 }

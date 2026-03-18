@@ -13,12 +13,18 @@ const Home:NextPage = () => {
   useEffect(() => {
     const setCurrentSession = async() => {
       const {data} = await supabase.auth.getSession()
+      if (data.session?.access_token) {
+        supabase.realtime.setAuth(data.session.access_token)
+      }
       setSession(data.session)
     }
     setCurrentSession()
     supabase.auth.onAuthStateChange((_event, session) => {
       console.log('onAuthStateChange _event', _event)
       console.log('onAuthStateChange session', session)
+      if (session?.access_token) {
+        supabase.realtime.setAuth(session.access_token)
+      }
       setSession(session)
     })
   }, [setSession])

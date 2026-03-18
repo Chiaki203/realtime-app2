@@ -35,3 +35,37 @@ create table if not exists public.comments (
 create index if not exists posts_created_at_idx on public.posts(created_at);
 create index if not exists notices_created_at_idx on public.notices(created_at);
 create index if not exists comments_post_id_created_at_idx on public.comments(post_id, created_at);
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'posts'
+  ) then
+    alter publication supabase_realtime add table public.posts;
+  end if;
+
+  if not exists (
+    select 1
+    from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'notices'
+  ) then
+    alter publication supabase_realtime add table public.notices;
+  end if;
+
+  if not exists (
+    select 1
+    from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'comments'
+  ) then
+    alter publication supabase_realtime add table public.comments;
+  end if;
+end
+$$;

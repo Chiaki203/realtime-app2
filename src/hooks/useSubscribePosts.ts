@@ -11,8 +11,9 @@ import { Post } from '@/types';
 export const useSubscribePosts = () => {
   const queryClient = useQueryClient()
   useEffect(() => {
+    const channelName = `public:posts:${Math.random().toString(36).slice(2)}`
     const subsc = supabase
-      .channel('public:posts')
+      .channel(channelName)
       .on('postgres_changes', 
         {event: 'INSERT', schema: 'public', table: 'posts'}, 
         (payload:RealtimePostgresInsertPayload<Post>) => {
@@ -79,13 +80,14 @@ export const useSubscribePosts = () => {
             previousPosts.filter(post => post.id !== payload.old.id)
           )
       })
-      .subscribe()
-    const removeSubscription = async() => {
-      await supabase.removeChannel(subsc)
-    }
+      .subscribe((status, err) => {
+        console.log('subscribePosts status', status)
+        if (err) {
+          console.error('subscribePosts error', err)
+        }
+      })
     return () => {
-      // removeSubscription()
-      subsc.unsubscribe()
+      supabase.removeChannel(subsc)
     }
   }, [queryClient])
 }

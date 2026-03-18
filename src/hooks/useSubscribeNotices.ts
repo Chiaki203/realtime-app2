@@ -11,8 +11,9 @@ import { Notice } from '@/types';
 export const useSubscribeNotices = () => {
   const queryClient = useQueryClient()
   useEffect(() => {
+    const channelName = `public:notices:${Math.random().toString(36).slice(2)}`
     const subsc = supabase
-      .channel('public:notices')
+      .channel(channelName)
       .on('postgres_changes', 
         {event: 'INSERT', schema: 'public', table: 'notices'}, 
         (payload:RealtimePostgresInsertPayload<Notice>) => {
@@ -71,12 +72,14 @@ export const useSubscribeNotices = () => {
             previousNotices.filter(notice => notice.id !== payload.old.id)
           )
       })
-      .subscribe()
-    const removeSubscription = async() => {
-      await supabase.removeChannel(subsc)
-    }
+      .subscribe((status, err) => {
+        console.log('subscribeNotices status', status)
+        if (err) {
+          console.error('subscribeNotices error', err)
+        }
+      })
     return () => {
-      removeSubscription()
+      supabase.removeChannel(subsc)
     }
   }, [queryClient])
 }
