@@ -1,38 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# supabase-social-dashboard
 
-## Getting Started
+Social dashboard built with Next.js and Supabase. The app includes auth, profile management, feed posts with comments, notifications, personal notes, image uploads, and Supabase Realtime subscriptions.
 
-First, run the development server:
+## Stack
+
+- Next.js 13 (Pages Router)
+- TypeScript
+- Tailwind CSS
+- Supabase Auth, Postgres, Storage, Realtime
+- React Query
+- Zustand
+
+## Features
+
+- Email/password authentication
+- Profile editing with avatar upload
+- Feed posts with image upload
+- Inline post editing
+- Comments with realtime count updates
+- Notifications CRUD
+- Personal `My Notes`
+- Mobile tab navigation for `Profile`, `Feed`, and `Notification`
+
+## Local development
+
+Create `.env.local`:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the app:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The development server runs on `http://localhost:4000`.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+npm run cypress
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Supabase setup
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This project expects these main tables:
 
-## Learn More
+- `profiles`
+- `posts`
+- `comments`
+- `notices`
+- `my_notes`
 
-To learn more about Next.js, take a look at the following resources:
+Storage buckets used by the app:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `avatars`
+- `posts`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+SQL files live in `src/sql/`.
 
-## Deploy on Vercel
+If you want realtime updates across clients, make sure the relevant tables are included in the `supabase_realtime` publication.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```text
+src/
+  components/   UI components
+  hooks/        data hooks, mutations, realtime subscriptions
+  pages/        Next.js pages
+  store/        Zustand store
+  styles/       global styles
+  types/        shared types
+  utils/        Supabase client
+```
+
+## Notes
+
+- The app uses `next/font/google` to load Inter.
+- React Query is configured with `suspense: true`.
+- Cypress specs currently target app flows directly and may need environment-specific test accounts.

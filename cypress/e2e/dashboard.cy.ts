@@ -1,6 +1,6 @@
 describe('Dashboard', () => {
   beforeEach(() => {
-    cy.visit('https://realtime-app2.vercel.app/')
+    cy.visit('/')
     cy.get('input[placeholder="Email"]').type('user1@test.com')
     cy.get('input[placeholder="Password"]').type('hyde4212')
     cy.get('[type="submit"]').click()

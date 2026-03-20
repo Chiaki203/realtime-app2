@@ -1,6 +1,6 @@
 describe('Authentication', () => {
   beforeEach(() => {
-    cy.visit('https://realtime-app2.vercel.app/')
+    cy.visit('/')
   })
 
   it('Shall navigate to Dashboard when successfully login', () => {
