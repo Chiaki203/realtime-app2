@@ -1,10 +1,10 @@
 import { FormEvent, FC, memo } from 'react'
 import Image from 'next/image'
 import { CameraIcon } from '@heroicons/react/solid'
-import useStore from '@/store'
-import { useMutatePost } from '@/hooks/useMutatePost'
 import { useDownloadUrl } from '@/hooks/useDownloadUrl'
+import { useMutatePost } from '@/hooks/useMutatePost'
 import { useUploadPostImg } from '@/hooks/useUploadPostImg'
+import useStore from '@/store'
 import { Spinner } from './Spinner'
 
 const POST_MAX_LENGTH = 1000
@@ -16,13 +16,11 @@ export const PostFormMemo: FC = () => {
   const reset = useStore((state) => state.resetEditedPost)
   const { createPostMutation } = useMutatePost()
   const { useMutateUploadPostImg } = useUploadPostImg()
-
-  console.log('PostForm editedPost.post_url', editedPost.post_url)
-
   const { fullUrl: postUrl, setFullUrl } = useDownloadUrl(
     editedPost.post_url,
     'posts'
   )
+
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     await createPostMutation.mutateAsync({
@@ -32,10 +30,8 @@ export const PostFormMemo: FC = () => {
     })
     reset()
     setFullUrl('')
-    console.log('プレビュー終了')
-    console.log('editedPost.post_url', editedPost.post_url)
   }
-  // console.log('editedPost post_url', editedPost.post_url)
+
   return (
     <form
       onSubmit={submitHandler}

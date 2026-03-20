@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { useQueryClient } from 'react-query'
 import {
   RealtimePostgresDeletePayload,
   RealtimePostgresInsertPayload,
 } from '@supabase/supabase-js'
+import { useQueryClient } from 'react-query'
 import { supabase } from '@/utils/supabase'
 
 type CommentRow = {
@@ -15,7 +15,9 @@ export const useSubscribeCommentCounts = () => {
   const queryClient = useQueryClient()
 
   useEffect(() => {
-    const channelName = `public:comments-counts:${Math.random().toString(36).slice(2)}`
+    const channelName = `public:comments-counts:${Math.random()
+      .toString(36)
+      .slice(2)}`
     const subsc = supabase
       .channel(channelName)
       .on(
@@ -78,12 +80,7 @@ export const useSubscribeCommentCounts = () => {
           }
         }
       )
-      .subscribe((status, err) => {
-        console.log('subscribeCommentCounts status', status)
-        if (err) {
-          console.error('subscribeCommentCounts error', err)
-        }
-      })
+      .subscribe()
 
     return () => {
       supabase.removeChannel(subsc)

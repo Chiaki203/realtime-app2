@@ -1,24 +1,19 @@
-import { useState, FormEvent, FC } from 'react';
-import {ShieldCheckIcon} from '@heroicons/react/solid'
-import { useMutateAuth } from '@/hooks/useMutateAuth';
-import useStore from '@/store';
+import { FormEvent, FC, useState } from 'react'
+import { ShieldCheckIcon } from '@heroicons/react/solid'
+import { useMutateAuth } from '@/hooks/useMutateAuth'
 
-
-export const Auth:FC = () => {
+export const Auth: FC = () => {
   const [isLogin, setIsLogin] = useState(true)
-  const editedProfile = useStore(state => state.editedProfile)
-  const editedNotice = useStore(state => state.editedNotice)
-  // console.log('editedProfile', editedProfile)
-  // console.log('editedNotice', editedNotice)
   const {
-    email, 
-    setEmail, 
+    email,
+    setEmail,
     password,
     setPassword,
     loginMutation,
-    registerMutation
+    registerMutation,
   } = useMutateAuth()
-  const handleSubmit = async(e:FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (isLogin) {
       loginMutation.mutate()
@@ -26,40 +21,43 @@ export const Auth:FC = () => {
       registerMutation.mutate()
     }
   }
+
   return (
     <>
-      <ShieldCheckIcon className='app-icon-accent mb-8 h-12 w-12'/>
+      <ShieldCheckIcon className="app-icon-accent mb-8 h-12 w-12" />
       <form onSubmit={handleSubmit}>
         <div>
           <input
             type="text"
             required
-            className='app-input my-2'
+            className="app-input my-2"
             placeholder="Email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>
           <input
             type="password"
             required
-            className='app-input my-2'
-            placeholder='Password'
+            className="app-input my-2"
+            placeholder="Password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div className='my-6 flex items-center justify-center text-sm'>
+        <div className="my-6 flex items-center justify-center text-sm">
           <span
-            className='app-link-accent cursor-pointer font-medium'
-            onClick={() => setIsLogin(!isLogin)}>
+            className="app-link-accent cursor-pointer font-medium"
+            onClick={() => setIsLogin(!isLogin)}
+          >
             change mode?
           </span>
         </div>
         <button
           type="submit"
-          className='app-button flex w-full justify-center rounded-md px-4 py-2'>
+          className="app-button flex w-full justify-center rounded-md px-4 py-2"
+        >
           {isLogin ? 'Login' : 'Register'}
         </button>
       </form>

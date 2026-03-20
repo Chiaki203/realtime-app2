@@ -1,14 +1,13 @@
 import { FormEvent, FC, memo } from 'react'
-import useStore from '@/store'
 import { useMutateNotice } from '@/hooks/useMutateNotice'
+import useStore from '@/store'
 
 export const NoticeFormMemo: FC = () => {
   const session = useStore((state) => state.session)
-  // console.log('noticeForm session', session)
-  // const {editedNotice} = useStore()
   const editedNotice = useStore((state) => state.editedNotice)
   const update = useStore((state) => state.updateEditedNotice)
   const { createNoticeMutation, updateNoticeMutation } = useMutateNotice()
+
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (editedNotice.id === '') {
@@ -23,8 +22,9 @@ export const NoticeFormMemo: FC = () => {
       })
     }
   }
+
   return (
-    <form className=" w-full " onSubmit={submitHandler}>
+    <form className="w-full" onSubmit={submitHandler}>
       <input
         type="text"
         className="app-input my-1 w-full"

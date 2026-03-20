@@ -1,12 +1,12 @@
 describe('Dashboard', () => {
   beforeEach(() => {
-    // cy.visit('http://localhost:3000')
     cy.visit('https://realtime-app2.vercel.app/')
     cy.get('input[placeholder="Email"]').type('user1@test.com')
     cy.get('input[placeholder="Password"]').type('hyde4212')
     cy.get('[type="submit"]').click()
     cy.get('[data-testid="logout"]').should('be.visible')
   })
+
   it('Shall Post/Comment CRUD works fine', () => {
     cy.get('input[placeholder="New Post?"]').type('Post A')
     cy.get('[data-testid="btn-post"]').click()
@@ -29,9 +29,9 @@ describe('Dashboard', () => {
     cy.get('[data-testid="ul-comment"]').children().should('have.text', 'Comment A++')
     cy.get('[data-testid="menu-post"]').click()
     cy.get('[data-testid="delete-post"]').click()
-    // cy.get('[data-testid="ul-comment"]').children().should('have.length', 0)
     cy.get('[data-testid="ul-post"]').children().should('have.length', 0)
   })
+
   it('Shall Notice CRUD works fine', () => {
     cy.get('input[placeholder="New Notice?"]').type('Notice A')
     cy.get('[data-testid="btn-notice"]').click()

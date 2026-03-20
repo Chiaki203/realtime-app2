@@ -1,17 +1,20 @@
 import { useEffect } from 'react'
-import { useQueryClient } from 'react-query'
 import {
+  RealtimePostgresDeletePayload,
   RealtimePostgresInsertPayload,
   RealtimePostgresUpdatePayload,
-  RealtimePostgresDeletePayload,
 } from '@supabase/supabase-js'
-import { supabase } from '@/utils/supabase'
+import { useQueryClient } from 'react-query'
 import { Comment } from '@/types'
+import { supabase } from '@/utils/supabase'
 
 export const useSubscribeComments = (postId: string) => {
   const queryClient = useQueryClient()
+
   useEffect(() => {
-    const channelName = `public:comments:${postId}:${Math.random().toString(36).slice(2)}`
+    const channelName = `public:comments:${postId}:${Math.random()
+      .toString(36)
+      .slice(2)}`
     const subsc = supabase
       .channel(channelName)
       .on(
@@ -23,13 +26,11 @@ export const useSubscribeComments = (postId: string) => {
           filter: `post_id=eq.${postId}`,
         },
         (payload: RealtimePostgresInsertPayload<Comment>) => {
-          console.log('subscribeComments insert payload', payload)
           let previousComments = queryClient.getQueryData<Comment[]>([
             'comments',
             postId,
           ])
           if (!previousComments) {
-            console.log('previousCommentsなし！')
             previousComments = []
           }
           const insertedComment = {
@@ -45,10 +46,7 @@ export const useSubscribeComments = (postId: string) => {
               ? previousComments.map((comment) =>
                   comment.id === insertedComment.id ? insertedComment : comment
                 )
-              : [
-                  insertedComment,
-                  ...previousComments,
-                ]
+              : [insertedComment, ...previousComments]
           )
         }
       )
@@ -61,13 +59,11 @@ export const useSubscribeComments = (postId: string) => {
           filter: `post_id=eq.${postId}`,
         },
         (payload: RealtimePostgresUpdatePayload<Comment>) => {
-          console.log('subscribeComments update payload', payload)
           let previousComments = queryClient.getQueryData<Comment[]>([
             'comments',
             postId,
           ])
           if (!previousComments) {
-            console.log('previousCommentsなし！')
             previousComments = []
           }
           queryClient.setQueryData(
@@ -95,7 +91,6 @@ export const useSubscribeComments = (postId: string) => {
           filter: `post_id=eq.${postId}`,
         },
         (payload: RealtimePostgresDeletePayload<Comment>) => {
-          console.log('subscribeComments delete payload', payload)
           let previousComments = queryClient.getQueryData<Comment[]>([
             'comments',
             postId,
@@ -109,12 +104,8 @@ export const useSubscribeComments = (postId: string) => {
           )
         }
       )
-      .subscribe((status, err) => {
-        console.log('subscribeComments status', status, postId)
-        if (err) {
-          console.error('subscribeComments error', err)
-        }
-      })
+      .subscribe()
+
     return () => {
       supabase.removeChannel(subsc)
     }

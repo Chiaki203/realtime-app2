@@ -42,7 +42,6 @@ body {
   }
 
   .app-button:disabled {
-    /* background-color: #9eb8b4; */
     cursor: not-allowed;
   }
 

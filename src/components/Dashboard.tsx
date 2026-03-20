@@ -1,10 +1,10 @@
 import { FC, ReactNode, Suspense, useState } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import { ExclamationCircleIcon } from '@heroicons/react/solid'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Feed } from './Feed'
+import { Notification } from './Notification'
 import { Spinner } from './Spinner'
 import { UserProfile } from './UserProfile'
-import { Notification } from './Notification'
-import { Feed } from './Feed'
 
 type TabKey = 'Profile' | 'Feed' | 'Notification'
 
@@ -33,10 +33,9 @@ export const Dashboard: FC = () => {
 
   return (
     <div className="flex w-full flex-col md:h-full md:min-h-0">
-      {/* <div className="px-4 pt-2 sm:px-6 md:hidden"> */}
-      <div className=" md:hidden">
+      <div className="md:hidden">
         <div role="tablist" aria-label="Dashboard tabs">
-          <div className="app-divider flex w-full min-w-0 overflow-hidden   bg-white/80 backdrop-blur">
+          <div className="app-divider flex w-full min-w-0 overflow-hidden bg-white/80 backdrop-blur">
             {(['Profile', 'Feed', 'Notification'] as const).map((tab) => {
               const isActive = tab === activeTab
               return (
@@ -46,7 +45,7 @@ export const Dashboard: FC = () => {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTab(tab)}
-                  className={`app-tab min-w-0 flex-1 truncate  px-2 py-2 text-sm font-medium transition ${
+                  className={`app-tab min-w-0 flex-1 truncate px-2 py-2 text-sm font-medium transition ${
                     isActive ? 'app-tab-active shadow-sm' : ''
                   }`}
                 >
@@ -66,7 +65,7 @@ export const Dashboard: FC = () => {
         </DashboardBoundary>
       </div>
 
-      <div className="hidden min-h-0 flex-1 grid-cols-[2fr_3fr_2fr] gap-6 overflow-hidden px-6  md:grid">
+      <div className="hidden min-h-0 flex-1 grid-cols-[2fr_3fr_2fr] gap-6 overflow-hidden px-6 md:grid">
         <DashboardPanel>
           <UserProfile />
         </DashboardPanel>

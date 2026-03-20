@@ -1,15 +1,14 @@
 import { FC } from 'react'
 import Image from 'next/image'
-import { format } from 'date-fns'
-import useStore from '@/store'
-import { useQueryProfile } from '@/hooks/useQueryProfile'
 import { useDownloadUrl } from '@/hooks/useDownloadUrl'
-import { useUploadAvatarImg } from '@/hooks/useUploadAvatarImg'
-import { Spinner } from './Spinner'
 import { useMutateProfile } from '@/hooks/useMutateProfile'
-import { MyNoteForm } from './MyNoteForm'
 import { useQueryMyNotes } from '@/hooks/useQueryMyNotes'
+import { useQueryProfile } from '@/hooks/useQueryProfile'
+import { useUploadAvatarImg } from '@/hooks/useUploadAvatarImg'
+import useStore from '@/store'
+import { MyNoteForm } from './MyNoteForm'
 import { MyNoteItem } from './MyNoteItem'
+import { Spinner } from './Spinner'
 
 export const UserProfile: FC = () => {
   const session = useStore((state) => state.session)
@@ -23,6 +22,7 @@ export const UserProfile: FC = () => {
     editedProfile.avatar_url,
     'avatars'
   )
+
   const updateProfile = () => {
     updateProfileMutation.mutate({
       id: session?.user?.id,
@@ -31,24 +31,11 @@ export const UserProfile: FC = () => {
       avatar_url: editedProfile.avatar_url,
     })
   }
-  // if (profile?.created_at) {
-  //   console.log('profile?.created_at', profile.created_at)
-  //   console.log('new Date(profile.created_at)', new Date(profile.created_at))
-  // }
+
   return (
     <div className="flex w-full flex-col items-center justify-center pt-4 md:px-4">
       <p className="mb-4 text-lg">Profile</p>
       <p>{profile?.username}</p>
-      {/* {profile?.created_at && (
-        <p className="my-1 text-sm">
-          {format(new Date(profile.created_at), 'yyyy-MM-dd HH:mm:ss')}
-        </p>
-      )}
-      {profile?.updated_at && (
-        <p className="text-sm">
-          {format(new Date(profile.updated_at), 'yyyy-MM-dd HH:mm:ss')}
-        </p>
-      )} */}
       <label
         htmlFor="avatar"
         className="group relative my-4 h-[140px] w-[140px] cursor-pointer select-none overflow-hidden rounded-full bg-gray-100"
@@ -73,7 +60,7 @@ export const UserProfile: FC = () => {
         onChange={(e) => useMutateUploadAvatarImg.mutate(e)}
       />
       {isLoading && <Spinner />}
-      <p className="">Username</p>
+      <p>Username</p>
       <input
         className="app-input my-2 w-[200px]"
         type="text"
@@ -86,18 +73,6 @@ export const UserProfile: FC = () => {
           })
         }
       />
-      {/* <p>Favorites</p>
-      <input
-        className="mx-2 my-2 rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none"
-        type="text"
-        value={editedProfile.favorites || ''}
-        onChange={(e) =>
-          update({
-            ...editedProfile,
-            favorites: e.target.value,
-          })
-        }
-      /> */}
       <button
         className="app-button my-2 w-[200px]"
         onClick={updateProfile}

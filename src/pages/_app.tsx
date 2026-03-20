@@ -1,8 +1,7 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
 import { Inter } from 'next/font/google'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +23,6 @@ export default function App({ Component, pageProps }: AppProps) {
     <div className={inter.className}>
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
-        {/* <ReactQueryDevtools initialIsOpen={false}/> */}
       </QueryClientProvider>
     </div>
   )

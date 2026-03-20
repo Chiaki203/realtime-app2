@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
-import { supabase } from '@/utils/supabase'
 import { Post } from '@/types'
+import { supabase } from '@/utils/supabase'
 
 export const useQueryPosts = () => {
   const getPosts = async () => {
@@ -11,13 +11,10 @@ export const useQueryPosts = () => {
     if (error) {
       throw new Error(error.message)
     }
-    console.log('getPosts supabase data', data)
     return data as Post[]
   }
+
   return useQuery<Post[], Error>(['posts'], getPosts, {
     staleTime: Infinity,
-    onSuccess: () => {
-      console.log('useQueryPosts onSuccess!')
-    },
   })
 }

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '@/utils/supabase';
+import { useEffect, useState } from 'react'
+import { supabase } from '@/utils/supabase'
 
 export const useDownloadUrl = (
   filePath: string | undefined,
@@ -8,29 +8,25 @@ export const useDownloadUrl = (
   const [isLoading, setIsLoading] = useState(false)
   const [fullUrl, setFullUrl] = useState('')
   const bucketName = key === 'avatars' ? 'avatars' : 'posts'
+
   useEffect(() => {
-    console.log('filePathある？', filePath)
     if (filePath) {
-      console.log('ImageUrlダウンロード開始')
-      console.log('bucketName', bucketName)
-      const download = async() => {
+      const download = async () => {
         setIsLoading(true)
-        const {data, error} = await supabase.storage
+        const { data, error } = await supabase.storage
           .from(bucketName)
           .download(filePath)
         if (error) {
           setIsLoading(false)
           throw error
         }
-        console.log('downloaded storage data', data)
-        console.log('URL.createObjectURL(data)', URL.createObjectURL(data))
-        setFullUrl(URL.createObjectURL(data))
+        const objectUrl = URL.createObjectURL(data)
+        setFullUrl(objectUrl)
         setIsLoading(false)
       }
       download()
-    } else {
-      console.log('ファイルパスない！')
     }
   }, [filePath, bucketName])
-  return {isLoading, fullUrl, setFullUrl}
+
+  return { isLoading, fullUrl, setFullUrl }
 }
