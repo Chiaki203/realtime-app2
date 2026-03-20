@@ -42,7 +42,7 @@ export const CommentItemMemo: FC<Props> = ({
           <UserCircleIcon className="app-icon-muted mt-0.5 inline-block h-6 w-6 shrink-0 cursor-pointer" />
         )}
         <div className="ml-2 min-w-0 flex-1 text-sm leading-6">
-          <span className="mr-2 font-bold">
+          <span className="mr-2 font-semibold">
             {data?.username || 'Anonymous'}
           </span>
           <span className="whitespace-pre-wrap break-words">{comment}</span>

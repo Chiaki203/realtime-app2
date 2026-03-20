@@ -146,7 +146,7 @@ export const PostItemMemo: FC<Props> = ({
           <div className="mt-3">
             {draftPostUrl && (
               <div className="mb-3 w-full">
-                <div className="relative aspect-[5/4] w-full overflow-hidden rounded-lg">
+                <div className="relative aspect-[3/2] w-full overflow-hidden rounded-lg">
                   <Image
                     src={editPostUrl || postUrl}
                     alt="Edited image"
@@ -219,7 +219,7 @@ export const PostItemMemo: FC<Props> = ({
         ) : (
           postUrl && (
             <div className="mt-3 w-full">
-              <div className="relative aspect-[5/4] w-full overflow-hidden rounded-lg">
+              <div className="relative aspect-[3/2] w-full overflow-hidden rounded-lg">
                 <Image
                   src={postUrl}
                   alt="Image"

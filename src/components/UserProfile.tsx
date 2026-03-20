@@ -36,7 +36,7 @@ export const UserProfile: FC = () => {
   //   console.log('new Date(profile.created_at)', new Date(profile.created_at))
   // }
   return (
-    <div className="flex w-full flex-col items-center justify-center px-4 pt-4">
+    <div className="flex w-full flex-col items-center justify-center pt-4 md:px-4">
       <p className="mb-4 text-lg">Profile</p>
       <p>{profile?.username}</p>
       {/* {profile?.created_at && (
@@ -75,7 +75,7 @@ export const UserProfile: FC = () => {
       {isLoading && <Spinner />}
       <p className="">Username</p>
       <input
-        className="app-input mx-2 my-2"
+        className="app-input my-2 w-[200px]"
         type="text"
         placeholder="Username"
         value={editedProfile.username || ''}

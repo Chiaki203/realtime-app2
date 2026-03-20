@@ -20,7 +20,7 @@ export const NoticeItemMemo: FC<Omit<Notice, 'created_at'>> = ({
   const { fullUrl: avatarUrl } = useDownloadUrl(data?.avatar_url, 'avatars')
   return (
     <li className="my-3">
-      <div className="mb-2 flex items-center justify-between">
+      <div className=" flex items-center justify-between">
         <div className="flex min-w-0 items-center">
           {avatarUrl ? (
             <div className="relative h-6 w-6 overflow-hidden rounded-full bg-gray-100">
@@ -35,7 +35,7 @@ export const NoticeItemMemo: FC<Omit<Notice, 'created_at'>> = ({
           ) : (
             <UserCircleIcon className="app-icon-muted inline-block h-6 w-6 cursor-pointer" />
           )}
-          <span className="ml-2 truncate text-sm font-bold">
+          <span className="ml-2 truncate text-sm font-semibold">
             {data?.username || 'Anonymous'}
           </span>
         </div>

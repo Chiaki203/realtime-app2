@@ -72,6 +72,8 @@ body {
 
   .app-tab {
     color: var(--color-text);
+    background-color: transparent;
+    transition: background-color 150ms ease, color 150ms ease;
   }
 
   .app-tab:hover {
@@ -79,6 +81,11 @@ body {
   }
 
   .app-tab-active {
+    background-color: var(--color-accent);
+    color: white;
+  }
+
+  .app-tab-active:hover {
     background-color: var(--color-accent);
     color: white;
   }
