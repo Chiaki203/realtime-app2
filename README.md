@@ -1,5 +1,7 @@
 # supabase-social-dashboard
 
+![supabase-social-dashboard main page](public/screenshots/main-page1.png)
+
 Social dashboard built with Next.js and Supabase. The app includes auth, profile management, feed posts with comments, notifications, personal notes, image uploads, and Supabase Realtime subscriptions.
 
 ## Stack
