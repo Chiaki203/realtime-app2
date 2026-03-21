@@ -231,6 +231,11 @@ export const PostItemMemo: FC<Props> = ({
             </div>
           )
         )}
+        {(isLoadingAvatar || isLoadingPost) && !isEditing && (
+          <div className="my-3 flex justify-center">
+            <Spinner />
+          </div>
+        )}
         {!isEditing && (
           <div className="mt-3 text-sm">
             <span>{visibleCaption}</span>
@@ -245,11 +250,7 @@ export const PostItemMemo: FC<Props> = ({
             )}
           </div>
         )}
-        {(isLoadingAvatar || isLoadingPost) && !isEditing && (
-          <div className="my-3 flex justify-center">
-            <Spinner />
-          </div>
-        )}
+
         <div className="mt-2 flex items-center justify-start">
           <div className="flex items-center">
             <ChatIcon
